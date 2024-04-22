@@ -1,0 +1,51 @@
+{% extends "base/index.html" %}
+
+{% block content %}
+    <h2 class="text-center title-h">Upload you prescription</h2>
+    <div class="input-group mb-2 mt-3">
+        <input class="form-control hidden d-none" type="file" id="input_img" name="img">
+        <div class="d-flex justify-content-center text-center">
+            <button class="mx-2 p-3 btn btn-outline-success h-10 w-[40px] p-1" onclick="document.getElementById('input_img').click()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" x2="12" y1="3" y2="15"></line>
+                </svg>
+            </button>
+        </div>
+        
+    </div>
+    <div id="result" class="container mt-3 border boder-default border-3">
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+
+        $('#input_img').change(function() {
+            var formData = new FormData();
+            formData.append('image', $(this)[0].files[0]);
+            Apirequest(formData);
+            
+        });
+
+        function Apirequest(formData) {
+            $.ajax({
+                url: `{% url 'main-api-med-img' %}`,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response);
+                    document.getElementById('result').innerHTML = response;
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        }
+    </script>
+{% endblock scripts %}

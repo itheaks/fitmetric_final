@@ -1,0 +1,67 @@
+
+
+{% extends 'base/index.html' %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+                {% if field.field.widget.input_type == 'checkbox' %}
+                <div class="mt-2 form-check form-switch">
+                    {{field.label_tag}}
+                    <input required type="{{field.field.widget.input_type}}" id="id_{{field.name}}" name="{{field.name}}" class="form-check-input">
+                    <span><small>{{field.help_text}}</small></span>
+                    {% if field.errors %}
+                    <div class="alert alert-danger m-0 p-0">{{field.errors}}</div>
+                    {% endif %}
+                </div>
+                {% elif field.field.widget.input_type == 'select' %}
+                <div class="mt-2 form-group">
+                    {{field.label_tag}}
+                    <select id="id_{{field.name}}" name="{{field.name}}" class="form-select">
+                        {% for id,value in field.field.choices %}
+                        <option value="{{id}}">{{value}}</option>
+                        {% endfor %}
+                    </select>
+                    {% if field.errors %}
+                    <div class="alert alert-danger m-0 p-0">{{field.errors}}</div>
+                    {% endif %}
+                </div>
+                {% elif field.field.widget.input_type == 'select' %}
+                <div class="mt-2 form-group">
+                    {{field.label_tag}}
+                    <input required type="{{field.field.widget.input_type}}" id="id_{{field.name}}" name="{{field.name}}" class="form-control" {% if field.field.widget.attrs.placeholder %} placeholder="{{ field.field.widget.attrs.placeholder }}"{% endif %}>
+                    {% if field.errors %}
+                    <div class="alert alert-danger m-0 p-0">{{field.errors}}</div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="mt-2 form-group">
+                    {{field.label_tag}}
+                    <input required type="{{field.field.widget.input_type}}" id="id_{{field.name}}" name="{{field.name}}" class="form-control" {% if field.field.widget.attrs.placeholder %} placeholder="{{ field.field.widget.attrs.placeholder }}"{% endif %}>
+                    <span><small>{{field.help_text}}</small></span>
+                    {% if field.errors %}
+                    <div class="alert alert-danger m-0 p-0">{{field.errors}}</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+    <button type="submit" class = " btn btn-default w-100 mt-2">Submit</button>
+</form>
+{% endblock %}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

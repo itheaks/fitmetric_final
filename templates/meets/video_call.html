@@ -1,0 +1,64 @@
+{% extends "base/index.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Video Conference</h1>
+                <div id="root"></div>
+                <button onclick="StartApp()" class="btn btn-primary">Start</button>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+    <script>
+        document.cookie = "yourCookieName=yourCookieValue; SameSite=None; Secure";
+        function StartApp() {
+            function getUrlParams(url) {
+                let urlStr = url.split('?')[1];
+                const urlSearchParams = new URLSearchParams(urlStr);
+                const result = Object.fromEntries(urlSearchParams.entries());
+                return result;
+            }
+
+            const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
+            const userID = Math.floor(Math.random() * 10000) + "";
+            var user = "{{ request.user.full_name }}";
+            // const userName = "username" + userID;
+            const userName = user
+            const appID = 979539649;
+            const serverSecret = "67a27c26e8f4d6f932730a12a02d8756";
+            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+            const zp = ZegoUIKitPrebuilt.create(kitToken);
+            if (typeof ZegoUIKitPrebuilt === 'undefined') {
+                console.error('ZegoUIKitPrebuilt is not defined. Check if the library is properly loaded.');
+            }
+            zp.joinRoom({
+                container: document.querySelector("#root"),
+                sharedLinks: [{
+                    name: 'Personal link',
+                    url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+                }],
+                scenario: {
+                    mode: ZegoUIKitPrebuilt.VideoConference,
+                },
+
+                turnOnMicrophoneWhenJoining: true,
+                turnOnCameraWhenJoining: true,
+                showMyCameraToggleButton: true,
+                showMyMicrophoneToggleButton: true,
+                showAudioVideoSettingsButton: true,
+                showScreenSharingButton: true,
+                showTextChat: true,
+                showUserList: true,
+                maxUsers: 2,
+                layout: "Auto",
+                showLayoutButton: false,
+
+            })
+        }
+    </script>
+{% endblock scripts %}
