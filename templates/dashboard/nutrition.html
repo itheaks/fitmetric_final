@@ -60,15 +60,15 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Nutrition Search</h3>
-
+                        <h3 class="mb-0">Nutrition Search</h3>
+                        <p class="my-0 fs-6">Search a food iteam or upload an image.</p>
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-2 mt-3">
                             <input type="text" id="foodInput" class="form-control border border-2 border-default" placeholder="Enter a Food.." style="height: 50px;">
                             <button id="search_btn" class="btn btn-default px-4" type="submit" onclick="searchNutrition()">Search</button>
                             <input class="form-control hidden d-none" type="file" id="input_img" name="img">
-                            <button class="mx-2 px-2 btn btn-outline-success h-10 w-[40px] p-1" onclick="document.getElementById('input_img').click()">
+                            <button title="Select a image to search" class="mx-2 px-2 btn btn-outline-success h-10 w-[40px] p-1" onclick="document.getElementById('input_img').click()">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>

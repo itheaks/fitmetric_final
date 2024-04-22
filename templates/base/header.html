@@ -12,7 +12,13 @@
           <li class="nav-link"><a href="{% url 'main-blog' %}"><span>Blog</span></a></li>
           <li class="nav-link"><a href="{% url 'list_blog_post' %}"><span>Events</span></a></li>
           <li class="nav-link"><a href="{% url 'main-mental-health' %}"><span>Mental Health</span></a></li>
-          <li class="nav-link"><a href="{% url 'meets-home' %}"><span>Doctor</span></a></li>
+          <li class="dropdown"><a href="#"><span>Doctor</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="{% url 'meets-home' %}">Book Appointment</a></li>
+              <li><a href="{% url 'appointment_list' %}">All Appointment</a></li>
+            </ul>
+          </li>
+
           <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="{% url 'main-tdee' %}">Tdee</a></li>

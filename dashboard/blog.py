@@ -58,7 +58,7 @@ class BlogHome(View):
                 self.images.append(f['urlToImage'])
             self.date.append(self.formatDateTime(f['publishedAt']))
             self.forward.append(f['url'])
-        mylist = zip(self.titles,self.descriptions,self.images,self.date,self.forward)
+        mylist = list(zip(self.titles,self.descriptions,self.images,self.date,self.forward))
         return mylist
 
     def get(self,request):

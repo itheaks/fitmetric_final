@@ -133,12 +133,13 @@ class NutritionItems(models.Model):
         return self.name
 
 class BlogPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/')
     title = models.CharField(max_length=200)
     description = models.TextField()
     event_date = models.DateTimeField()
     location = models.CharField(max_length=200)
-    duration = models.DurationField()
+    duration = models.CharField(max_length=200)
     timing = models.TimeField()
     is_active = models.BooleanField(default=True)
 

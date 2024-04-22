@@ -1,10 +1,8 @@
 from django.shortcuts import render
 from django.views import View
-import pickle
 import os
 from django.conf import settings
 import pandas as pd
-import numpy as np
 import joblib
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -13,12 +11,8 @@ from django.contrib.auth.decorators import login_required
 def Home(request):
     return render(request,"predict/index.html")
 
-
-
 class DiseasesPredict(LoginRequiredMixin,View):
-    model_path1 = os.path.join(settings.BASE_DIR, "ml_models", "models", "diseases_dt.joblib")
-    model_path2 = os.path.join(settings.BASE_DIR, "ml_models", "models", "diseases_rf.joblib")
-    model_path3 = os.path.join(settings.BASE_DIR, "ml_models", "models", "diseases_knn.joblib")
+    model_path = os.path.join(settings.BASE_DIR, "ml_models", "models", "diseases_knn.joblib")
 
     symptoms = [
         "itching", "skin_rash", "nodal_skin_eruptions", "continuous_sneezing", "shivering",
@@ -81,15 +75,10 @@ class DiseasesPredict(LoginRequiredMixin,View):
             for z in symptoms_list:
                 if(z==self.symptoms[k]):
                     l2[k]=1
-        model1 = joblib.load(self.model_path1)
-        model2 = joblib.load(self.model_path2)
-        model3 = joblib.load(self.model_path3)
+        model = joblib.load(self.model_path)
         data = pd.DataFrame([l2])
-        pred1 = model1.predict(data)[0]
-        pred2 = model2.predict(data)[0]
-        pred3 = model3.predict(data)[0]
-        pred = [self.disease[pred1],self.disease[pred2],self.disease[pred3]]
-        guess = f'You have a risk of {max(pred)}'
+        pred = model.predict(data)[0]
+        guess = f'You have a risk of {self.disease[pred]}'
         context = {
             'result':guess,
         }
