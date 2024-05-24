@@ -1,0 +1,69 @@
+{% extends "base/index.html" %}
+
+{% block title %}
+    All Events | {{site_name}}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center title-h d-inline-flex">Events</h1>
+    <a href="{% url 'create_blog_post' %}" class="btn btn-default float-end d-inline-flex"><i class="my-1 fa-solid fa-plus"></i>&nbsp;Create Event</a>
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search Event" id="searchInput" oninput="searchData()">
+        <button class="btn btn-default" type="button" id="button-addon2"><i class="fa-solid fa-search"></i></button>
+    </div>
+
+    <div class="spinner-border text-primary" role="status" id="loadingSpinner" style="display: none;">
+        <span class="sr-only">Loading...</span>
+    </div>
+
+    <div class="row" id="dataList">
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let selectedPersons = [];
+
+    function searchData() {
+        console.log("Helll")
+        document.getElementById('loadingSpinner').style.display = 'block';
+
+        const searchInput = document.getElementById('searchInput').value;
+        fetch(`{% url 'search-blog-post' %}?search=${searchInput}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                displayData(data);
+            });
+    }
+
+    function displayData(datas) {
+        const dataList = document.getElementById('dataList');
+        dataList.innerHTML = '';
+
+        datas.forEach(data => {
+            const dataItem = document.createElement('div');
+            dataItem.className = 'col-md-3 mb-4';
+            dataItem.innerHTML = `
+                <div class="card h-100">
+                    <img style="max-height:140px;width:100%;" src="${"/media/"+data.image ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png"}" class="card-img-top img-fluid" alt="Video Thumbnail">
+                    <div class="card-body p-1">
+                        <h5 class="card-title text-capitalize p-0">${data.title}</h5>
+                        <p class="my-0 badge bg-warning">Event Date: ${data.event_date}</p>
+                        <p class="my-0"><span class="fw-bold">Description:</span> ${data.description}</p>
+                        <p class="my-0 badge bg-info"><span class="fw-bold">Location:</span> ${data.location}</p>
+                        <p class="my-0 "><span class="fw-bold">Timing:</span> ${data.timing}</p>
+                        <button onclick="alert('Registration completed')" class="btn btn-sm btn-default float-end mx-3">Register&nbsp;<i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            `;
+            dataList.appendChild(dataItem);
+        });
+    }
+
+    searchData();
+</script>
+{% endblock scripts %}

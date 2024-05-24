@@ -1,0 +1,98 @@
+{% extends "base/index.html" %}
+{% load static %}
+
+{% block title %} Know your prescription | {{site_name}} {% endblock %}
+
+{% block content %}
+    <h2 class="text-center title-h">Upload you prescription</h2>
+    <div id="result" class="container mt-3 border boder-default border-3">
+        <p id="result_p" class="text-center">Result will be displayed here</p>
+    </div>
+    <div id="img_upload" class="col mb-2 mt-3">
+        <div class="form-group files">
+            <p class="text-center">Upload your prescription image here</p>
+            <input type="file" class="form-control" id="input_img" accept="image/*">
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <img class="img-fluid d-none img-thumbnail" id="imagePreview" src="" alt="">
+    </div>
+{% endblock content %}
+
+{% block styles %}
+<style>
+    .files input {
+        outline: 2px dashed #92b0b3;
+        outline-offset: -10px;
+        -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        padding: 120px 0px 85px 35%;
+        text-align: center !important;
+        margin: 0;
+        width: 100% !important;
+    }
+    .files{ position:relative}
+    .files:after {  pointer-events: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 50px;
+        right: 0;
+        height: 50px;
+        content: "";
+        background-image: url({% static "main/img/cloud-upload.png" %});
+        display: block;
+        margin: 0 auto;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+    .files:before {
+        position: absolute;
+        bottom: 10px;
+        left: 0;  pointer-events: none;
+        width: 100%;
+        right: 0;
+        height: 50px;
+        content: " or drag it here. ";
+        display: block;
+        margin: 0 auto;
+        color: #2ea591;
+        font-weight: 600;
+        text-transform: capitalize;
+        text-align: center;
+    }
+</style>
+{% endblock styles %}
+
+{% block scripts %}
+    <script>
+        const imagePreview = document.getElementById('imagePreview');
+        $('#input_img').change(function() {
+            $("#result_p").text('Loading...');
+            imagePreview.src = window.URL.createObjectURL(this.files[0])
+            imagePreview.classList.remove('d-none');
+            var formData = new FormData();
+            formData.append('image', $(this)[0].files[0]);
+            Apirequest(formData);
+            $('#img_upload').hide();
+        });
+
+        function Apirequest(formData) {
+            $.ajax({
+                url: `{% url 'main-api-med-img' %}`,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response);
+                    document.getElementById('result').innerHTML = response + '<br><button class="btn btn-primary" onclick="location.reload()">Refresh</button>';
+                },
+                error: function(error) {
+                    console.error(error);
+                    $("#result_p").text('Error occured');
+                }
+            });
+        }
+    </script>
+{% endblock scripts %}
