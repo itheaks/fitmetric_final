@@ -1,0 +1,41 @@
+{% extends "base/index.html" %}
+
+{% block styles %}
+<style>
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .list-group-item .btn {
+        margin-left: 10px;
+        padding: 5px 10px;
+    }
+</style>
+{% endblock styles %}
+
+{% block content %}
+    <h2 class="text-center title-h">Check your Bookings</h2>
+    {% if appointments %}
+        <div class="list-group">
+            {% for appointment in appointments %}
+            <a href="{% url 'video_call' appointment.uuid  %}" class="list-group-item list-group-item-action">
+                {{ appointment }} - {{ appointment.date}}  
+                <span  id="uuid{{ forloop.counter }}">
+                    <span class="fw-bold">Meeting Id</span>  - <span class="badge bg-primary">{{ appointment.uuid }}</span> 
+                </span>
+                <button class="btn btn-default">Join</button>
+            </a>
+
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center border border-default border-2 p-2 px-3">
+                <p class="text-center">No appointments found</p>
+                <a href="{% url 'meets-home' %}" class="btn btn-primary">Book One</a>
+            </div>
+        </div>
+        {% endif %}
+{% endblock content %}
