@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     'utils',
     'accounts',
     'dashboard',
-    'meets'
-]
+    'meets',
+    'predict',
+]   
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
