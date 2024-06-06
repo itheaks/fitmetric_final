@@ -48,11 +48,11 @@
                 </div>
             </a>
 
-            <a href="{% url 'predict-diseases' %}" class="card-link">
+            <a href="{% url 'predict-home' %}" class="card-link">
                 <div class="card">
                     <i class="fa-solid fas fa-magnifying-glass-chart fa-2x text-center mb-3"></i>
                     <h2 class="text-center">Predict</h2>
-                    <p class="text-center">This offers predictions for mental health, heart disease, diabetes, breast cancer, and so on.</p>
+                    <p class="text-center">This offers predictions for heart disease, diabetes, breast cancer, and so on.</p>
                 </div>
             </a>
     
@@ -87,6 +87,24 @@
                     <p class="text-center">Stay updated every day by our blogs.</p>
                 </div>
             </a>
+
+            <a href="{% url 'predict-diseases' %}" class="card-link">
+                <div class="card">
+                    <i class="fa-solid fa-virus fa-2x text-center mb-3"></i>
+                    <h2 class="text-center">Disease</h2>
+                    <p class="text-center">Enter your symptoms and get know prediction.</p>
+                </div>
+            </a>
+
+            <a href="{% url 'utils-contact-us' %}" class="card-link">
+                <div class="card">
+                    <i class="fa-solid fa-envelope fa-2x text-center mb-3"></i>
+                    <h2 class="text-center">Contact US</h2>
+                    <p class="text-center">Feeling any issue, contact us</p>
+                </div>
+            </a>
+
+            
 
         </div>
     </div>

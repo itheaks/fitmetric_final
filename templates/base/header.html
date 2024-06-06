@@ -9,6 +9,12 @@
 
       <nav id="navbar" class="navbar">
         <ul>
+          {% if request.user.is_authenticated %}
+            {% include 'base/_details/profile_on_login.html' %}
+          {% else %}
+            <li><a href="{% url 'accounts-login' %}" class="header_lr_btn_login btn btn-outline-light">Login</a></li>
+            <li><a href="{% url 'accounts-register' %}" class="header_lr_btn_reg btn btn-light text-default">SignUp</a></li>
+            {% endif %}
           <li class="nav-link"><a href="{% url 'main-blog' %}"><span>Blog</span></a></li>
           <li class="nav-link"><a href="{% url 'list_blog_post' %}"><span>Events</span></a></li>
 
@@ -31,12 +37,6 @@
           </li>
 
           <li><a class="nav-link" href="{% url 'utils-contact-us' %}">Contact</a></li>
-          {% if request.user.is_authenticated %}
-            {% include 'base/_details/profile_on_login.html' %}
-          {% else %}
-            <li><a href="{% url 'accounts-login' %}" class="header_lr_btn_login btn btn-outline-light">Login</a></li>
-            <li><a href="{% url 'accounts-register' %}" class="header_lr_btn_reg btn btn-light text-default">SignUp</a></li>
-            {% endif %}
         </ul>
         
         <i class="bi bi-list mobile-nav-toggle"></i>
