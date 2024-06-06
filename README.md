@@ -45,9 +45,33 @@ To set up the FitMetric project on your local machine, follow the steps below:
 ### Steps
 
 1. **Clone the Repository**
+
     ```
     git clone https://github.com/itheaks/fitmetric_final.git
     cd fitmetric_final
     ```
 2. **Create a Virtual Environment**
 
+    ```
+    python -m venv venv
+    source venv\Scripts\activate
+    ```
+3. **Install Dependencies**
+
+    ```
+    pip install -r requirements.txt
+    ```
+4. **Apply Migrations**
+
+    ```
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+5. **Run the Development Server**
+
+    ```
+    python manage.py runserver
+    Click on 'http://127.0.0.1:8000/'
+    ```
+## Thank YOU
+### For Any query reach to me at aksmlibts@gmail.com
